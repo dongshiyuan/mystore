@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content_block %}
+    <div class="products">
+	<div class="container">
+        {% if category %}
+		    <h1>{{ category.name }}</h1>
+        {% elif tag %}
+            <h1>{{ tag.name }}</h1>
+        {% elif brand %}
+            <h1>{{ brand.name }}</h1>
+        {% elif discount %}
+            <h1>打折商品</h1>
+        {% endif %}
+		<div class="col-md-9">
+			<div class="content-top1">
+                {% if clo_list %}
+                    {% for clo in clo_list %}
+                        <form action="{% url 'add_cart'%}" method="post" id="subform{{ clo.id }}">
+                        {% csrf_token %}
+                        <div class="col-md-3 col-md2">
+                            <div class="col-md1 simpleCart_shelfItem">
+                                <a href="{% url 'detail' %}?did={{ clo.id }}">
+                                    <img class="img-responsive" src="{{ MEDIA_URL }}{{ clo.image_url_i }}" alt="" />
+                                </a>
+                                <h3><a href="{% url 'detail' %}?did={{ clo.id }}">{{ clo.brand.name }}</a></h3>
+                                <div class="price">
+                                        <h5 class="item_price">{{ clo.new_price }}元</h5>
+
+
+                                         <input type="hidden" name="chid" value="{{ clo.id }}">
+                                        <a href="#" class="item_add" onclick="document.getElementById('subform{{ clo.id }}').submit();">放入购物车</a>
+
+                                        <div class="clearfix"> </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+                    {% endfor %}
+                {% else %}
+                    <h2>还是空的哦~</h2>
+                {% endif %}
+			    <div class="clearfix"> </div>
+            <div class="pagination" style="margin-left: 50%">
+                {% include 'pagination.html' %}
+            </div>
+			</div>
+		</div>
+        {% include 'pro_right.html' %}
+		<div class="clearfix"> </div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+<div class="pagination">
+    {% if clothing.has_previous %}
+        <a href="?{{ clothing.previous_page_number.querystring }}" class="prev">&lsaquo;&lsaquo; 上一页</a>
+    {% endif %}
+    {% for page in clothing.pages %}
+        {% if page %}
+            {% ifequal page clothing.number %}
+                <span class="current page">{{ page }}</span>
+            {% else %}
+                <a href="?{{ page.querystring }}" class="page">{{ page }}</a>
+            {% endifequal %}
+        {% else %}
+            ...
+        {% endif %}
+    {% endfor %}
+    {% if clothing.has_next %}
+        <a href="?{{ clothing.next_page_number.querystring }}" class="next">&rsaquo;&rsaquo;下一页</a>
+    {% endif %}
+</div>
